@@ -1,8 +1,10 @@
 ﻿namespace BaseLibrary.Entities
 {
-    public class Employee : BaseEntity
+    public class Employee
     {
         public Guid EmployeeId { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? CitizenShipID{ get; set; }
         public string? FileNumber { get; set; }
         public string? FullName { get; set; }
         public string? JobName { get; set; }

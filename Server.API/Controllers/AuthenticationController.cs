@@ -1,6 +1,6 @@
 ﻿using BaseLibrary.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using ServerLibrary.Repositories.Contracts;
+using ServerLibrary.Repository.Contracts;
 
 namespace Server.API.Controllers
 {
@@ -27,7 +27,7 @@ namespace Server.API.Controllers
             }
             var login = await userAccount.SignInAsync(user);
             return Ok(login);
-    }
+        }
         [HttpPost("refreshToken")]
         public async Task<IActionResult> RefreshTokenAsync(RefreshToken refreshToken)
         {

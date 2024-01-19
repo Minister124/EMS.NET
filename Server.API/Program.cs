@@ -19,6 +19,15 @@ builder.Services.AddDbContext<EMSDbContext>(options =>
 
 builder.Services.Configure<JwtSection>(builder.Configuration.GetSection("JwtSection"));
 builder.Services.AddScoped<IUserAccount, UserAccountRepository>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorWasm",
+        builder => builder
+        .WithOrigins("http://localhost:5084", "https://localhost:7028")
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials());
+});
 
 var app = builder.Build();
 
@@ -29,6 +38,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowBlazorWasm");
 
 app.UseAuthorization();
 

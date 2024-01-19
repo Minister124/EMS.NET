@@ -18,16 +18,25 @@ namespace ClientLibrary.Services.Implementation
                 new GeneralResponse(false, "Deserialization Failed");
         }
 
-        public Task<LoginResponse> SignInAsync(Login user)
+        public async Task<LoginResponse> SignInAsync(Login user)
         {
-            throw new NotImplementedException();
-        }
+            var httpClient = getHttpClient.GetPublicHttpClient();
+            var result = await httpClient.PostAsJsonAsync($"{AuthUrl}/login", user);
+            if (!result.IsSuccessStatusCode) return new LoginResponse(false, "Error Occured");
+            return await result.Content.ReadFromJsonAsync<LoginResponse>() ??
+                new LoginResponse(false, "Deserialiization Failed");
 
         public Task<LoginResponse> RefreshTokenAsync(RefreshToken refreshToken)
         {
             throw new NotImplementedException();
         }
 
+        public async Task<WeatherForecast[]> GetWeatherForecasts()
+        {
+            var httpClient = await getHttpClient.GetPrivateHttpClient();
+            var result = await httpClient.GetFromJsonAsync<WeatherForecast[]>("api/weatherforecast");
+            return result!;
+            
         public Task<WeatherForecast[]> GetWeatherForecasts()
         {
             throw new NotImplementedException();

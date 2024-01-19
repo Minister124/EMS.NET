@@ -25,7 +25,6 @@ namespace ClientLibrary.Services.Implementation
             if (!result.IsSuccessStatusCode) return new LoginResponse(false, "Error Occured");
             return await result.Content.ReadFromJsonAsync<LoginResponse>() ??
                 new LoginResponse(false, "Deserialiization Failed");
-        }
 
         public Task<LoginResponse> RefreshTokenAsync(RefreshToken refreshToken)
         {
@@ -37,6 +36,10 @@ namespace ClientLibrary.Services.Implementation
             var httpClient = await getHttpClient.GetPrivateHttpClient();
             var result = await httpClient.GetFromJsonAsync<WeatherForecast[]>("api/weatherforecast");
             return result!;
+            
+        public Task<WeatherForecast[]> GetWeatherForecasts()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using BaseLibrary.DTOs;
+using BaseLibrary.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using ServerLibrary.Repository.Contracts;
 

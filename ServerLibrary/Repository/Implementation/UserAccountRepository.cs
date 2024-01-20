@@ -129,7 +129,7 @@ namespace ServerLibrary.Repository.Implementation
                 issuer: section.Value.Issuer,
                 audience: section.Value.Audience,
                 claims: userClaims,
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddSeconds(300),
                 signingCredentials: credentials
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);

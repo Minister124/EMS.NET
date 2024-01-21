@@ -8,12 +8,15 @@
         <div class="top-row px-4">
             <AuthorizeView>
                 <Authorized>
-                    <a class="btn btn-outline-danger" @onclick="Logout">Logout</a>
+                    @if (ShowLoadingButton)
+                    {
+                        <SpinningLoadingButton></SpinningLoadingButton>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-danger" @onclick="Logout">Logout</a>
+                    }
                 </Authorized>
-                <NotAuthorized>
-                    <a class="btn btn-outline-primary" href="identity/account/login">Login</a>
-                    <a class="btn btn-outline-secondary" href="identity/account/register">Register</a>
-                </NotAuthorized>
             </AuthorizeView>
         </div>
 
@@ -23,6 +26,7 @@
     </main>
 </div>
 @code{
+    public bool ShowLoadingButton = false;
     async Task Logout()
     {
         var logoutModel = new UserSession();

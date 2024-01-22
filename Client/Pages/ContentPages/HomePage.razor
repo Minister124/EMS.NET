@@ -1,5 +1,6 @@
 ﻿@page "/home/dashboard"
-<h3>HomePage</h3>
+
+<TableBanner></TableBanner>
 
 @code {
     [CascadingParameter] public Task<AuthenticationState> authenticationState { get; set; }
@@ -11,7 +12,8 @@
     {
         var user = (await authenticationState).User;
         bool isAuthenticUser = user.Identity!.IsAuthenticated;
-        if (!isAuthenticUser)
-            NavManager.NavigateTo("/identity/acount/login");
+        if (!isAuthenticUser){
+            NavManager.NavigateTo("/identity/account/login");
+        }
     }
 }

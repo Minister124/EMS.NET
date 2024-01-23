@@ -1,6 +1,6 @@
 ﻿@page "/identity/account/register"
 @layout AuthenticationPage
-
+@inject SfDialogService DialogService
 <div class="container">
     <div class="row">
         <div class="col-lg-4"></div>
@@ -51,11 +51,7 @@
                              Already Have an Account?
                              <a class="btn-link" href="identity/account/login" style="color: #007BFF; text-decoration: none; font-weight: bold;">
                                  Login Now
-                                 <i class="bi bi-arrow-left-circle">
-                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
-                                         <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
-                                     </svg>
-                                 </i>
+                                 <i class="bi bi-arrow-left-circle"/>
                              </a>
                          </span>
                          <ValidationSummary />
@@ -68,18 +64,36 @@
 @code{
     public bool showLoadingButton { get; set; } = false;
     Register User = new();
+    [CascadingParameter] public Task<AuthenticationState> authenticationState { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        await CheckUserAuthentication();
+    }
+    private async Task CheckUserAuthentication()
+    {
+        var user = (await authenticationState).User;
+        bool isAuthenticUser = user.Identity!.IsAuthenticated;
+        if (isAuthenticUser)
+            NavManager.NavigateTo("/home/dashboard");
+    }
     async Task HandleSubmit()
     {
         showLoadingButton = true;
         var result = await accountService.CreateAsync(User);
         if (result.Flag)
         {
+            await DisplayDialog(result.Message, "Successfully Registered");
             User = new();
+            NavManager.NavigateTo("/login");
         }
         else
         {
-
+            await DisplayDialog(result.Message, "Failed!!!!");
         }
         showLoadingButton = false;
     }
- }
+    private async Task DisplayDialog(string content, string title)
+    {
+        await DialogService.AlertAsync(content, title);
+    }
+}

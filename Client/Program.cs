@@ -1,5 +1,6 @@
 using Blazored.LocalStorage;
 using Client;
+using Client.ApplicationStates.Department;
 using ClientLibrary.Helper;
 using ClientLibrary.Services.Contracts;
 using ClientLibrary.Services.Implementation;
@@ -24,4 +25,10 @@ builder.Services.AddScoped<GetHttpClient>();
 builder.Services.AddScoped<LocalStorageService>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<IUserAccountServices, UserAccountServices>();
+<<<<<<< Updated upstream
+=======
+builder.Services.AddSyncfusionBlazor();
+builder.Services.AddScoped<SfDialogService>();
+builder.Services.AddScoped<DepartmentState>();
+>>>>>>> Stashed changes
 await builder.Build().RunAsync();

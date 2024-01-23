@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using Microsoft.AspNetCore.Authorization
+@inherits LayoutComponentBase
+@attribute [Authorize]
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -6,18 +8,14 @@
 
     <main>
         <div class="top-row px-4">
-            <AuthorizeView>
-                <Authorized>
-                    @if (ShowLoadingButton)
-                    {
-                        <SpinningLoadingButton></SpinningLoadingButton>
-                    }
-                    else
-                    {
-                        <a class="btn btn-outline-danger" @onclick="Logout">Logout</a>
-                    }
-                </Authorized>
-            </AuthorizeView>
+            @if (ShowLoadingButton)
+            {
+                <SpinningLoadingButton></SpinningLoadingButton>
+            }
+            else
+            {
+                <Profile/>
+            }
         </div>
 
         <article class="content px-4">
